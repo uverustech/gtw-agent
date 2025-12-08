@@ -88,7 +88,7 @@ func sendHeartbeat() {
 	jsonBody, _ := json.Marshal(payload)
 
 	// Silently fail — control plane not required yet
-	http.Post(controlURL+"/api/v1/heartbeat", "application/json", bytes.NewReader(jsonBody))
+	http.Post(controlURL+"/api/heartbeat", "application/json", bytes.NewReader(jsonBody))
 }
 
 func getCaddyVersion() string {
