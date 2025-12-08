@@ -7,6 +7,7 @@ echo "Detecting system..."
 # Variables — change only these two lines if needed
 CONFIG_REPO="git@github.com:uverustech/gtw-config.git"
 NODE_ID="${NODE_ID:-$(hostname -f)}"
+RELEASE_URL="https://github.com/uverustech/gtw-agent/releases/latest/download/gtw-agent-linux-amd64"
 
 if [[ -z "$NODE_ID" || "$NODE_ID" == "localhost" ]]; then
   echo "Error: Cannot detect proper hostname. Set NODE_ID manually."
@@ -32,8 +33,10 @@ echo "Cloning config repo..."
 git clone $CONFIG_REPO . || { echo "Failed to clone repo. Check SSH key!"; exit 1; }
 
 echo "Installing gtw-agent binary..."
-curl -sSfL https://github.com/uverustech/gtw-agent/releases/latest/download/gtw-agent-linux-amd64 -o /usr/local/bin/gtw-agent
-chmod +x /usr/local/bin/gtw-agent
+curl -sSfL "$RELEASE_URL" -o /usr/local/bin/gtw-agent.NEW
+chmod +x /usr/local/bin/gtw-agent.NEW
+mv /usr/local/bin/gtw-agent.NEW /usr/local/bin/gtw-agent
+systemctl restart gtw-agent || true
 
 echo "Creating systemd service..."
 cat > /etc/systemd/system/gtw-agent.service <<SERVICE
