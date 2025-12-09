@@ -15,7 +15,7 @@ import (
 	"crypto/tls"
 )
 
-const version = "v1.1.0"
+const version = "v1.1.2"
 
 var (
 	nodeID      string
@@ -166,7 +166,7 @@ func getLatestAgentVersion() (string, error) {
 		},
 	}
 
-	req, _ := http.NewRequest("GET", controlURL+"/api/agent-latest-version", nil)
+	req, _ := http.NewRequest("GET", controlURL+"/api/agent/latest-version", nil)
 	req.Header.Set("User-Agent", "gtw-agent/"+version)
 
 	resp, err := client.Do(req)
